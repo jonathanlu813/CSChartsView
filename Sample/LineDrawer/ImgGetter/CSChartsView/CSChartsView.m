@@ -46,8 +46,10 @@
         [self.layer addSublayer:xAxisLayer];
 		
 		//add gesture
-		tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGesturePerformed)];
-		[self addGestureRecognizer:tapGestureRecognizer];
+        if (self.tappable) {
+            tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGesturePerformed)];
+            [self addGestureRecognizer:tapGestureRecognizer];
+        }
 		[self refreshCSChartsView];
     }
     return self;
@@ -267,6 +269,11 @@
 - (void)setLineColor:(UIColor*)color atIndex:(NSInteger)index{
     CSChartsMaiLine *line = [charts.lines objectAtIndex:index];
     line.color = color;
+}
+
+- (void)setLineWidth:(CGFloat)lineWidth atIndex:(NSInteger)index{
+    CSChartsMaiLine *line = [charts.lines objectAtIndex:index];
+    line.lineWidth = lineWidth;
 }
 
 - (void)setDetailRectSize:(CGSize)detailRectSize atIndex:(NSInteger)index{

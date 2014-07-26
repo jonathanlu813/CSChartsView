@@ -60,10 +60,12 @@
 @property(nonatomic) CGFloat yAxisMin;
 @property(nonatomic) NSInteger numberOfLines;
 @property(nonatomic,strong) NSArray *lineLayers;
+@property(nonatomic) BOOL tappable;
 
 //set line property
 - (void)setLinePoints:(NSArray*)points atIndex:(NSInteger)index;
 - (void)setLineColor:(UIColor*)color atIndex:(NSInteger)index;
+- (void)setLineWidth:(CGFloat)lineWidth atIndex:(NSInteger)index;
 - (void)setDetailRectSize:(CGSize)detailRectSize atIndex:(NSInteger)index;
 - (void)setDetailFont:(UIFont*)detailRectFont atIndex:(NSInteger)index;
 - (void)setDetailColor:(UIColor*)detailRectColor atIndex:(NSInteger)index;

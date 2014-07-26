@@ -18,15 +18,13 @@
 #import "CSChartsBackground.h"
 #import "CSChartsMaiLine.h"
 
-@interface CSCharts : NSObject{
-@public
-    //auxiliary parameters
-    CGPoint points[12];
-}
+@interface CSCharts : NSObject
+
 @property(nonatomic,strong) CSChartsXAxis *xAxis;
 @property(nonatomic,strong) CSChartsYAxis *yAxis;
 @property(nonatomic,strong) CSChartsBackground *background;
-@property(nonatomic,strong) CSChartsMaiLine *mainLine;
+//@property(nonatomic,strong) CSChartsMaiLine *mainLine;
+@property(nonatomic,strong) NSArray *lines;
 @property(nonatomic) CGRect frame;
 
 

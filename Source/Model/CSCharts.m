@@ -21,7 +21,6 @@
         self.xAxis = [[CSChartsXAxis alloc] init];
         self.yAxis = [[CSChartsYAxis alloc] init];
         self.background = [[CSChartsBackground alloc] init];
-        self.mainLine = [[CSChartsMaiLine alloc] init];
     }
     return self;
 }

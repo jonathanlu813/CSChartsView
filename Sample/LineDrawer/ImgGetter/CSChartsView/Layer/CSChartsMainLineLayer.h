@@ -11,4 +11,5 @@
 
 @interface CSChartsMainLineLayer : CALayer
 @property(nonatomic,weak) CSCharts *charts;
+@property(nonatomic) NSInteger index;
 @end

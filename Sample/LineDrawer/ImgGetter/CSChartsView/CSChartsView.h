@@ -12,7 +12,7 @@
 @protocol CSChartsViewDelegate <NSObject>
 
 @optional
--(void)pointSelected:(NSInteger) index;
+-(void)pointSelected:(NSIndexPath*)indexPath;
 -(void)leftSwipeGesturePerformed;
 -(void)rightSwipeGesturePerformed;
 -(void)pinchGesturePerformed:(UIPinchGestureRecognizer *) pinchGestureRecognizer;
@@ -54,11 +54,25 @@
 @property(nonatomic,strong) UIFont *xAxisSignFont UI_APPEARANCE_SELECTOR;
 
 //necessary property
-@property(nonatomic,strong) NSArray *mainLinePointArray;
 @property(nonatomic,strong) NSArray *xAxisSignArray;
 @property(nonatomic) NSInteger yAxisSignAmount;
 @property(nonatomic) CGFloat yAxisMax;
 @property(nonatomic) CGFloat yAxisMin;
+@property(nonatomic) NSInteger numberOfLines;
+@property(nonatomic,strong) NSArray *lineLayers;
+
+//set line property
+- (void)setLinePoints:(NSArray*)points atIndex:(NSInteger)index;
+- (void)setLineColor:(UIColor*)color atIndex:(NSInteger)index;
+- (void)setDetailRectSize:(CGSize)detailRectSize atIndex:(NSInteger)index;
+- (void)setDetailFont:(UIFont*)detailRectFont atIndex:(NSInteger)index;
+- (void)setDetailColor:(UIColor*)detailRectColor atIndex:(NSInteger)index;
+- (void)setDetailTextFormat:(NSString*)detailRectTextFormat atIndex:(NSInteger)index;
+- (void)setDetailUnitString:(NSString*)detailRectUnitString atIndex:(NSInteger)index;
+- (void)setDetailUnitFont:(UIFont*)detailRectUnitFont atIndex:(NSInteger)index;
+
+//set visibility for lines
+- (void)setVisible:(BOOL)isVisible atIndex:(NSInteger)index;
 
 //refresh view
 -(void) refreshCSChartsView;

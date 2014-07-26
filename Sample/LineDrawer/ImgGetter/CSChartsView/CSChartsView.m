@@ -15,7 +15,6 @@
 @interface CSChartsView (){
     CSCharts *charts;
     CSChartsBackgroundLayer *backgroundLayer;
-    CSChartsMainLineLayer *mainLineLayer;
     CSChartsXAxisLayer *xAxisLayer;
 	UITapGestureRecognizer *tapGestureRecognizer;
 }
@@ -38,18 +37,12 @@
         backgroundLayer.frame = CGRectInset(self.layer.bounds,0,0);
 		backgroundLayer.contentsScale = [[UIScreen mainScreen] scale];
         
-        mainLineLayer = [CSChartsMainLineLayer layer];
-        mainLineLayer.charts = charts;
-        mainLineLayer.frame = CGRectInset(self.layer.bounds,0,0);
-		mainLineLayer.contentsScale = [[UIScreen mainScreen] scale];
-        
         xAxisLayer = [CSChartsXAxisLayer layer];
         xAxisLayer.charts = charts;
         xAxisLayer.frame = CGRectInset(self.layer.bounds,0,0);
 		xAxisLayer.contentsScale = [[UIScreen mainScreen] scale];
         
         [self.layer addSublayer:backgroundLayer];
-        [self.layer addSublayer:mainLineLayer];
         [self.layer addSublayer:xAxisLayer];
 		
 		//add gesture
@@ -72,7 +65,9 @@
 }
 
 -(void) refreshMainLineLayer{
-    [mainLineLayer setNeedsDisplay];
+    for (CSChartsMainLineLayer *layer in self.lineLayers) {
+        [layer setNeedsDisplay];
+    }
 }
 
 -(void) refreshXAxisLayer{
@@ -82,13 +77,13 @@
 #pragma mark - action method
 -(void)tapGesturePerformed{
 	CGPoint tapPoint = [tapGestureRecognizer locationInView:self];
-	NSInteger index = [self pointsIndexTapped:tapPoint];
-	if (index != -1) {
+	NSIndexPath *indexPath = [self pointsIndexTapped:tapPoint];
+	if (index) {
 		if ([self.delegate respondsToSelector:@selector(pointSelected:)]) {
-			[self.delegate pointSelected:index];
+			[self.delegate pointSelected:indexPath];
 		}
 	}
-	[self setPointChosen:index];
+	[self setPointChosen:indexPath];
 	[self refreshMainLineLayer];
 }
 
@@ -99,22 +94,6 @@
 
 -(void)setNeedYAxis:(BOOL)needYAxis{
 	charts.yAxis.isNeeded = needYAxis;
-}
-
--(NSString *)detailRectUnitString{
-	return charts.mainLine.detailRect.unitString;
-}
-
--(void)setDetailRectUnitString:(NSString *)detailRectUnitString{
-	charts.mainLine.detailRect.unitString = detailRectUnitString;
-}
-
--(UIFont *)detailRectUnitFont{
-	return charts.mainLine.detailRect.unitFont;
-}
-
--(void)setDetailRectUnitFont:(UIFont *)detailRectUnitFont{
-	charts.mainLine.detailRect.unitFont = detailRectUnitFont;
 }
 
 -(BOOL)shouldDrawHorizontalViceLines{
@@ -165,30 +144,6 @@
 	charts.background.isRegionSeparated = isRegionSeparated;
 }
 
--(NSString *)detailRectTextFormat{
-	return charts.mainLine.detailRect.textFormat;
-}
-
--(void)setDetailRectTextFormat:(NSString *)detailRectTextFormat{
-	charts.mainLine.detailRect.textFormat = detailRectTextFormat;
-}
-
--(UIColor *)detailRectColor{
-	return charts.mainLine.detailRect.color;
-}
-
--(void)setDetailRectColor:(UIColor *)detailRectColor{
-	charts.mainLine.detailRect.color = detailRectColor;
-}
-
--(UIFont *)detailRectFont{
-	return charts.mainLine.detailRect.font;
-}
-
--(void)setDetailRectFont:(UIFont *)detailRectFont{
-	charts.mainLine.detailRect.font = detailRectFont;
-}
-
 -(NSArray *)colorRegionArray{
 	return charts.background.colorRegionArray;
 }
@@ -229,14 +184,6 @@
     charts.background.viceLineColor = backgroundViceLineColor;
 }
 
--(UIColor *)mainLineColor{
-    return charts.mainLine.color;
-}
-
--(void)setMainLineColor:(UIColor *)mainLineColor{
-    charts.mainLine.color = mainLineColor;
-}
-
 -(UIColor *)xAxisColor{
     return charts.xAxis.color;
 }
@@ -261,15 +208,25 @@
     charts.xAxis.signFont = xAxisSignFont;
 }
 
--(CGSize)detailRectSize{
-    return charts.mainLine.detailRect.size;
-}
-
--(void)setDetailRectSize:(CGSize)detailRectSize{
-    charts.mainLine.detailRect.size = detailRectSize;
-}
-
 #pragma mark - necessary property setter and getter
+- (void)setNumberOfLines:(NSInteger)numberOfLines{
+    NSMutableArray *lines = [NSMutableArray array];
+    NSMutableArray *lineLayers = [NSMutableArray array];
+    for (int i = 0; i < numberOfLines; i++) {
+        CSChartsMaiLine *line = [[CSChartsMaiLine alloc] init];
+        CSChartsMainLineLayer *mainLineLayer = [[CSChartsMainLineLayer alloc] init];
+        mainLineLayer.charts = charts;
+        mainLineLayer.index = i;
+        mainLineLayer.frame = CGRectInset(self.layer.bounds,0,0);
+		mainLineLayer.contentsScale = [[UIScreen mainScreen] scale];
+        [lines addObject:line];
+        [lineLayers addObject:mainLineLayer];
+        [self.layer addSublayer:mainLineLayer];
+    }
+    self.lineLayers = lineLayers;
+    charts.lines = lines;
+}
+
 -(CGFloat)yAxisMax{
     return charts.yAxis.max;
 }
@@ -302,12 +259,49 @@
     charts.xAxis.signArray = xAxisSignArray;
 }
 
--(NSArray *)mainLinePointArray{
-    return charts.mainLine.pointArray;
+-(void)setLinePoints:(NSArray *)points atIndex:(NSInteger)index{
+    CSChartsMaiLine *line = [charts.lines objectAtIndex:index];
+    line.pointArray = points;
 }
 
--(void)setMainLinePointArray:(NSArray *)mainLinePointArray{
-    charts.mainLine.pointArray = mainLinePointArray;
+- (void)setLineColor:(UIColor*)color atIndex:(NSInteger)index{
+    CSChartsMaiLine *line = [charts.lines objectAtIndex:index];
+    line.color = color;
+}
+
+- (void)setDetailRectSize:(CGSize)detailRectSize atIndex:(NSInteger)index{
+    CSChartsMaiLine *line = [charts.lines objectAtIndex:index];
+    line.detailRect.size = detailRectSize;
+}
+
+- (void)setDetailFont:(UIFont*)detailRectFont atIndex:(NSInteger)index{
+    CSChartsMaiLine *line = [charts.lines objectAtIndex:index];
+    line.detailRect.font = detailRectFont;
+}
+
+- (void)setDetailColor:(UIColor*)detailRectColor atIndex:(NSInteger)index{
+    CSChartsMaiLine *line = [charts.lines objectAtIndex:index];
+    line.detailRect.color = detailRectColor;
+}
+
+- (void)setDetailTextFormat:(NSString*)detailRectTextFormat atIndex:(NSInteger)index{
+    CSChartsMaiLine *line = [charts.lines objectAtIndex:index];
+    line.detailRect.textFormat = detailRectTextFormat;
+}
+
+- (void)setDetailUnitString:(NSString*)detailRectUnitString atIndex:(NSInteger)index{
+    CSChartsMaiLine *line = [charts.lines objectAtIndex:index];
+    line.detailRect.unitString = detailRectUnitString;
+}
+
+- (void)setDetailUnitFont:(UIFont*)detailRectUnitFont atIndex:(NSInteger)index{
+    CSChartsMaiLine *line = [charts.lines objectAtIndex:index];
+    line.detailRect.unitFont = detailRectUnitFont;
+}
+
+- (void)setVisible:(BOOL)isVisible atIndex:(NSInteger)index{
+    CSChartsMainLineLayer *lineLayer = [self.lineLayers objectAtIndex:index];
+    lineLayer.opaque = !isVisible;
 }
 
 #pragma mark - delegate setter
@@ -330,23 +324,29 @@
 	return sqrt((pointA.x - pointB.x) * (pointA.x - pointB.x) + (pointA.y - pointB.y) * (pointA.y - pointB.y));
 }
 
--(NSInteger)pointsIndexTapped:(CGPoint) point{
-	for (int i = 0; i < charts.mainLine.pointArray.count; i++) {
-		if ([self distanceBetweenPoint:charts->points[i] and:point] <= TAP_GESTURE_REG_RADIUS) {
-			return i;
-		}
+-(NSIndexPath*)pointsIndexTapped:(CGPoint) point{
+	for (int i = 0; i < charts.lines.count; i++) {
+        CSChartsMaiLine *line = [charts.lines objectAtIndex:i];
+        for (int j = 0; j< line.pointArray.count; j++) {
+            if ([self distanceBetweenPoint:line->points[j] and:point] <= TAP_GESTURE_REG_RADIUS) {
+                return [NSIndexPath indexPathForRow:j inSection:i];
+            }
+        }
 	}
-	return -1;
+	return nil;
 }
 
--(void)setPointChosen:(NSInteger) index{
-	if (index != -1) {
-		for (int i = 0; i < charts.mainLine.pointArray.count; i++) {
-			CSChartsPoint *point = [charts.mainLine.pointArray objectAtIndex:i];
-			point.shouldShowDetail = NO;
-			point.pointStyle = CSChartsPointStyleSolidWhite;
+-(void)setPointChosen:(NSIndexPath*)indexPath{
+	if (indexPath) {
+		for (int i = 0; i < charts.lines.count; i++) {
+            CSChartsMaiLine *line = [charts.lines objectAtIndex:i];
+			for (int j = 0; j < line.pointArray.count; j++) {
+                CSChartsPoint *point = [line.pointArray objectAtIndex:j];
+                point.shouldShowDetail = NO;
+                point.pointStyle = CSChartsPointStyleSolidWhite;
+            }
 		}
-		CSChartsPoint *point = [charts.mainLine.pointArray objectAtIndex:index];
+		CSChartsPoint *point = [((CSChartsMaiLine*)[charts.lines objectAtIndex:indexPath.section]).pointArray objectAtIndex:indexPath.row];
 		point.shouldShowDetail = YES;
 		point.pointStyle = CSChartsPointStyleSolidWhiteBorder;
 	}

@@ -9,7 +9,11 @@
 #import <Foundation/Foundation.h>
 #import "CSChartsDetailRect.h"
 
-@interface CSChartsMaiLine : NSObject
+@interface CSChartsMaiLine : NSObject{
+@public
+    //auxiliary parameters
+    CGPoint points[12];
+}
 @property(nonatomic,strong) NSArray *pointArray;
 @property(nonatomic,strong) UIColor *color;
 @property(nonatomic) CGFloat lineWidth;

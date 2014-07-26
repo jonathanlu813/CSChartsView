@@ -37,6 +37,7 @@
 	self.chartsView.detailRectUnitString = @"times/h";
 	self.chartsView.detailRectSize = CGSizeMake(80, 25);
     self.chartsView.xAxisSignArray = [NSArray arrayWithObjects:@"Feb 9",@"10",@"11",@"12",@"13",@"14",@"Feb 15      ", nil];
+    self.chartsView.numberOfLines = 2;
 
 	self.chartsView.delegate = self;
 	//p0
@@ -69,7 +70,12 @@
 	point6.color = [UIColor colorWithRed:228 / 255.0 green:81 / 255.0 blue:26 / 255.0 alpha:1];
 	point6.shouldShowDetail = YES;
 	
-    self.chartsView.mainLinePointArray = [NSArray arrayWithObjects:point0,point1,point2,point3,point4,point5,point6, nil];
+    [self.chartsView setLinePoints:[NSArray arrayWithObjects:point0,point1,point2, nil] atIndex:0];
+    [self.chartsView setLinePoints:[NSArray arrayWithObjects:point3,point4,point5,point6, nil] atIndex:1];
+    [self.chartsView setLineColor:[UIColor redColor] atIndex:0];
+    [self.chartsView setLineColor:[UIColor blueColor] atIndex:1];
+    [self.chartsView refreshMainLineLayer];
+    
 	self.chartsView.detailRectTextFormat = @"%0.f ";
 	self.chartsView.isRegionSeparated = NO;
 	self.chartsView.colorRegionArray = [NSArray arrayWithObjects:CSChartsColorRegionMake([UIColor colorWithRed:211 / 255.0 green:234 / 255.0 blue:210 / 255.0 alpha:1], 40),CSChartsColorRegionMake([UIColor colorWithRed:244 / 255.0 green:250 / 255.0 blue:246 / 255.0 alpha:1], 40),nil];

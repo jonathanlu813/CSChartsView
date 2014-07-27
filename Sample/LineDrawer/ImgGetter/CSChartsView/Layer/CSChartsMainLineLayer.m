@@ -191,26 +191,72 @@
 
 #pragma mark -- draw method
 -(void)drawMainLines:(CGContextRef)ctx{
-	NSArray *pointArray = self.mainLine.pointArray;
-	CGFloat allLeftSpacing = portSpacing + leftSpacing;
-	
-	//set line width
-    CGContextSetLineWidth(ctx, self.mainLine.lineWidth);
-	//set anti alias off
-    CGContextSetShouldAntialias(ctx, YES);
-	//set line color
-    CGContextSetStrokeColorWithColor(ctx, self.mainLine.color.CGColor);
-	
-	CSChartsPoint *curPoint;
+    NSArray *pointArray = self.mainLine.pointArray;
+    CGFloat allLeftSpacing = portSpacing + leftSpacing;
+    
     for (int i = 0; i < pointArray.count; i++ ) {
-		curPoint = [pointArray objectAtIndex:i];
+        CSChartsPoint *curPoint = [pointArray objectAtIndex:i];
         CGFloat percentOfHeight = (yAxisMax - curPoint.y) / (yAxisMax - yAxisMin);
 		self.mainLine -> points[i].y = topSpacing + chartsContentHeight * percentOfHeight;
 		self.mainLine -> points[i].x = allLeftSpacing + curPoint.x * verticalSpacing;
     }
-	CGContextAddLines(ctx, self.mainLine -> points, pointArray.count);
-	//commit draw
-	CGContextStrokePath(ctx);
+    
+    UIBezierPath *path = [UIBezierPath bezierPath];
+    path.miterLimit = -5;
+    CGPoint previousLineChartPoint;
+    CGFloat previousSlope = 0.0f;
+    CGFloat firstXPosition = 0.0f;
+    CGFloat lastXPosition = 0.0f;
+    
+    for (int i = 0; i < pointArray.count; i++) {
+        CGPoint lineChartPoint = self.mainLine -> points[i];
+        if (i ==0) {
+            [path moveToPoint:CGPointMake(lineChartPoint.x, lineChartPoint.y)];
+            firstXPosition = lineChartPoint.x;
+        }
+        else{
+            CGPoint nextLineChartPoint;
+            if (i != ([pointArray count] - 1))
+            {
+                nextLineChartPoint = self.mainLine -> points[i+1];
+            }
+            
+            CGFloat nextSlope = (i != ([pointArray count] - 1)) ? ((nextLineChartPoint.y - lineChartPoint.y)) / ((nextLineChartPoint.x - lineChartPoint.x)) : previousSlope;
+            CGFloat currentSlope = ((lineChartPoint.y - previousLineChartPoint.y)) / (lineChartPoint.x-previousLineChartPoint.x);
+            
+            BOOL deltaFromNextSlope = ((currentSlope >= (nextSlope + 0.01)) || (currentSlope <= (nextSlope - 0.01)));
+            BOOL deltaFromPreviousSlope = ((currentSlope >= (previousSlope + 0.01)) || (currentSlope <= (previousSlope - 0.01)));
+            BOOL deltaFromPreviousY = (lineChartPoint.y >= previousLineChartPoint.y + 1) || (lineChartPoint.y <= previousLineChartPoint.y - 1);
+            
+            if (self.mainLine.shouldSmooth && deltaFromNextSlope && deltaFromPreviousSlope && deltaFromPreviousY)
+            {
+                CGFloat deltaX = lineChartPoint.x - previousLineChartPoint.x;
+                CGFloat controlPointX = previousLineChartPoint.x + (deltaX / 2);
+                
+                CGPoint controlPoint1 = CGPointMake(controlPointX, previousLineChartPoint.y);
+                CGPoint controlPoint2 = CGPointMake(controlPointX, lineChartPoint.y);
+                
+                [path addCurveToPoint:CGPointMake(lineChartPoint.x, lineChartPoint.y) controlPoint1:controlPoint1 controlPoint2:controlPoint2];
+            }
+            else
+            {
+                [path addLineToPoint:CGPointMake(lineChartPoint.x, lineChartPoint.y)];
+            }
+            lastXPosition = lineChartPoint.x;
+            previousSlope = currentSlope;
+        }
+        previousLineChartPoint = lineChartPoint;
+    }
+    
+    //set line width
+    CGContextSetLineWidth(ctx, self.mainLine.lineWidth);
+	//set line color
+    CGContextSetStrokeColorWithColor(ctx, self.mainLine.color.CGColor);
+    CGContextSetLineCap(ctx, kCGLineCapRound);
+    CGContextSetLineJoin(ctx, kCGLineJoinRound);
+    CGContextBeginPath(ctx);
+    CGContextAddPath(ctx, path.CGPath);
+    CGContextDrawPath(ctx, kCGPathStroke);
 }
 
 #pragma mark -- param init method

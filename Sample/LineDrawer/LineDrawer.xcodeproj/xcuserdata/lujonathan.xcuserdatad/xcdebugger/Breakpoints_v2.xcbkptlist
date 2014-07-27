@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ImgGetter/RootViewController.m"
-            timestampString = "428065912.525484"
+            timestampString = "428147437.593198"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "98"
-            endingLineNumber = "98"
+            startingLineNumber = "94"
+            endingLineNumber = "94"
             landmarkName = "-pinchGesturePerformed:"
             landmarkType = "5">
          </BreakpointContent>
@@ -26,11 +26,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ImgGetter/CSChartsView/CSChartsView.m"
-            timestampString = "428065912.525484"
+            timestampString = "428147387.583912"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "334"
-            endingLineNumber = "334"
+            startingLineNumber = "339"
+            endingLineNumber = "339"
             landmarkName = "-pointsIndexTapped:"
             landmarkType = "5">
          </BreakpointContent>
@@ -42,11 +42,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ImgGetter/CSChartsView/CSChartsView.m"
-            timestampString = "428065912.525484"
+            timestampString = "428147387.583912"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "338"
-            endingLineNumber = "338"
+            startingLineNumber = "343"
+            endingLineNumber = "343"
             landmarkName = "-pointsIndexTapped:"
             landmarkType = "5">
          </BreakpointContent>
@@ -58,11 +58,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ImgGetter/CSChartsView/CSChartsView.m"
-            timestampString = "428065912.525484"
+            timestampString = "428147387.583912"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "330"
-            endingLineNumber = "330"
+            startingLineNumber = "335"
+            endingLineNumber = "335"
             landmarkName = "-distanceBetweenPoint:and:"
             landmarkType = "5">
          </BreakpointContent>
@@ -74,12 +74,60 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ImgGetter/CSChartsView/CSChartsView.m"
-            timestampString = "428065912.525484"
+            timestampString = "428147387.583912"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "339"
-            endingLineNumber = "339"
+            startingLineNumber = "344"
+            endingLineNumber = "344"
             landmarkName = "-pointsIndexTapped:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ImgGetter/CSChartsView/Layer/CSChartsMainLineLayer.m"
+            timestampString = "428147387.583912"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "213"
+            endingLineNumber = "213"
+            landmarkName = "-drawMainLines:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ImgGetter/CSChartsView/Layer/CSChartsMainLineLayer.m"
+            timestampString = "428147387.583912"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "225"
+            endingLineNumber = "225"
+            landmarkName = "-drawMainLines:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ImgGetter/CSChartsView/Layer/CSChartsMainLineLayer.m"
+            timestampString = "428147387.583912"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "224"
+            endingLineNumber = "224"
+            landmarkName = "-drawMainLines:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

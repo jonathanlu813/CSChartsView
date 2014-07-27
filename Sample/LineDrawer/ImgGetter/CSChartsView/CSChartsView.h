@@ -72,6 +72,7 @@
 - (void)setDetailTextFormat:(NSString*)detailRectTextFormat atIndex:(NSInteger)index;
 - (void)setDetailUnitString:(NSString*)detailRectUnitString atIndex:(NSInteger)index;
 - (void)setDetailUnitFont:(UIFont*)detailRectUnitFont atIndex:(NSInteger)index;
+- (void)setLineShouldSmooth:(BOOL)shouldSmooth atIndex:(NSInteger)index;
 
 //set visibility for lines
 - (void)setVisible:(BOOL)isVisible atIndex:(NSInteger)index;

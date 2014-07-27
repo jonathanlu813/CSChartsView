@@ -37,7 +37,7 @@
 	self.chartsView.detailRectUnitString = @"times/h";
 	self.chartsView.detailRectSize = CGSizeMake(80, 25);
     self.chartsView.xAxisSignArray = [NSArray arrayWithObjects:@"Feb 9",@"10",@"11",@"12",@"13",@"14",@"Feb 15      ", nil];
-    self.chartsView.numberOfLines = 3;
+    self.chartsView.numberOfLines = 1;
     self.chartsView.tappable = NO;
 
 	self.chartsView.delegate = self;
@@ -46,7 +46,7 @@
     point0.pointStyle = CSChartsPointStyleNone;
 	point0.color = [UIColor colorWithRed:228 / 255.0 green:81 / 255.0 blue:26 / 255.0 alpha:1];
 	//p1
-    CSChartsPoint *point1 = CSChartsPointMake(0, 50);
+    CSChartsPoint *point1 = CSChartsPointMake(0.5, 50);
     point1.pointStyle = CSChartsPointStyleNone;
 	point1.color = [UIColor colorWithRed:228 / 255.0 green:81 / 255.0 blue:26 / 255.0 alpha:1];
     //p2
@@ -71,14 +71,10 @@
 	point6.color = [UIColor colorWithRed:228 / 255.0 green:81 / 255.0 blue:26 / 255.0 alpha:1];
 	//point6.shouldShowDetail = YES;
 	
-    [self.chartsView setLinePoints:[NSArray arrayWithObjects:point0,point1,point2, nil] atIndex:0];
-    [self.chartsView setLinePoints:[NSArray arrayWithObjects:point3,point4,point5, nil] atIndex:1];
-    [self.chartsView setLinePoints:@[point6] atIndex:2];
+    [self.chartsView setLinePoints:[NSArray arrayWithObjects:point0,point1,point2,point3,point4,point5, point6, nil] atIndex:0];
     [self.chartsView setLineColor:[UIColor redColor] atIndex:0];
-    [self.chartsView setLineColor:[UIColor blueColor] atIndex:1];
-    [self.chartsView setLineColor:[UIColor yellowColor] atIndex:2];
-    [self.chartsView setLineWidth:5 atIndex:0];
-    //[self.chartsView setVisible:NO atIndex:2];
+    [self.chartsView setLineWidth:2 atIndex:0];
+    [self.chartsView setLineShouldSmooth:YES atIndex:0];
     [self.chartsView refreshMainLineLayer];
     
 	self.chartsView.detailRectTextFormat = @"%0.f ";

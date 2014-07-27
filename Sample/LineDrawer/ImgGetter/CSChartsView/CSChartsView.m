@@ -311,6 +311,11 @@
     lineLayer.opaque = !isVisible;
 }
 
+- (void)setLineShouldSmooth:(BOOL)shouldSmooth atIndex:(NSInteger)index{
+    CSChartsMaiLine *line = [charts.lines objectAtIndex:index];
+    line.shouldSmooth = shouldSmooth;
+}
+
 #pragma mark - delegate setter
 -(void)setDelegate:(id<CSChartsViewDelegate>)delegate{
 	_delegate = delegate;

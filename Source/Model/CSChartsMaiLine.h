@@ -18,4 +18,5 @@
 @property(nonatomic,strong) UIColor *color;
 @property(nonatomic) CGFloat lineWidth;
 @property(nonatomic,strong) CSChartsDetailRect *detailRect;
+@property(nonatomic) BOOL shouldSmooth;
 @end

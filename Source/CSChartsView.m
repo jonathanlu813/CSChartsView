@@ -308,7 +308,7 @@
 
 - (void)setVisible:(BOOL)isVisible atIndex:(NSInteger)index{
     CSChartsMainLineLayer *lineLayer = [self.lineLayers objectAtIndex:index];
-    lineLayer.opaque = !isVisible;
+    lineLayer.opacity = isVisible ? 1 : 0;
 }
 
 - (void)setLineShouldSmooth:(BOOL)shouldSmooth atIndex:(NSInteger)index{

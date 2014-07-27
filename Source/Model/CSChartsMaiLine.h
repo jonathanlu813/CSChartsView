@@ -12,7 +12,7 @@
 @interface CSChartsMaiLine : NSObject{
 @public
     //auxiliary parameters
-    CGPoint points[12];
+    CGPoint points[365];
 }
 @property(nonatomic,strong) NSArray *pointArray;
 @property(nonatomic,strong) UIColor *color;
